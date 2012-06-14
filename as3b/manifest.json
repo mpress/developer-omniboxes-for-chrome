@@ -1,0 +1,12 @@
+{
+    "name":"ActionScript 3.0 Beta Search",
+    "description":"Adds support to the omnibox to search the AS3 Beta reference docs.",
+    "background_page":"background.html",
+    "icons":{"128":"icon128.png", "32":"icon32.png", "16":"icon16.png"},
+    "omnibox":{"keyword":"as3b"},
+    "permissions":[
+        "tabs",
+        "*://help.adobe.com/"
+    ],
+    "version":"1.0"
+}

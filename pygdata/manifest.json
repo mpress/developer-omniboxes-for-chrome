@@ -1,0 +1,12 @@
+{
+    "name":"PyGData API Search",
+    "description":"Adds support to the omnibox to search the GData API for Python.",
+    "background_page":"background.html",
+    "icons":{"128":"icon128.png", "32":"icon32.png", "16":"icon16.png"},
+    "omnibox":{"keyword":"pygdata"},
+    "permissions":[
+        "tabs",
+        "*://gdata-python-client.googlecode.com/"
+    ],
+    "version":"2.0"
+}

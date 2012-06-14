@@ -1,0 +1,12 @@
+{
+    "name":"jQuery API Search",
+    "description":"Adds support to the omnibox to search within the jQuery API.",
+    "background_page":"background.html",
+    "icons":{"128":"icon128.png", "32":"icon32.png", "16":"icon16.png"},
+    "omnibox":{"keyword":"jq"},
+    "permissions":[
+        "tabs",
+        "*://api.jquery.com/"
+    ],
+    "version":"2.0"
+}

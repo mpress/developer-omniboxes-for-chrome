@@ -1,0 +1,14 @@
+{
+    "name":"C++ Search",
+    "description":"Adds support to the omnibox to search the C++ reference material.",
+    "background_page":"background.html",
+    "icons":{"128":"icon128.png", "32":"icon32.png", "16":"icon16.png"},
+    "omnibox":{"keyword":"cxx"},
+    "permissions":[
+        "tabs",
+        "*://*.sgi.com/",
+        "*://cplusplus.com/",
+        "*://www.cppreference.com/"
+    ],
+    "version":"1.0"
+}

@@ -1,0 +1,16 @@
+{
+    "name":"Python Search",
+    "description":"Adds support to the omnibox to search Python reference documentation.",
+    "background_page":"background.html",
+    "icons":{"128":"icon128.png", "32":"icon32.png", "16":"icon16.png"},
+    "omnibox":{"keyword":"py"},
+    "permissions":[
+        "tabs",
+        "*://docs.python.org/",
+        "*://docs.scipy.org/",
+        "*://docs.sympy.org/",
+        "*://matplotlib.sourceforge.net/",
+        "*://pylonshq.com/"
+    ],
+    "version":"2.0"
+}

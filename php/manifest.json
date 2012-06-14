@@ -1,0 +1,13 @@
+{
+    "name":"PHP Search",
+    "description":"Adds support to the omnibox to search the PHP reference docs.",
+    "background_page":"background.html",
+    "options_page":"options.html",
+    "icons":{"128":"icon128.png", "32":"icon32.png", "16":"icon16.png"},
+    "omnibox":{"keyword":"php"},
+    "permissions":[
+        "tabs",
+        "*://*.php.net/"
+    ],
+    "version":"2.1"
+}

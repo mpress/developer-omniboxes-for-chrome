@@ -1,0 +1,13 @@
+{
+    "name":"JavaEE API Search",
+    "description":"Adds support to the omnibox to search the JavaEE API.",
+    "background_page":"background.html",
+    "icons":{"128":"icon128.png", "32":"icon32.png", "16":"icon16.png"},
+    "omnibox":{"keyword":"jee"},
+    "permissions":[
+        "tabs",
+        "http://docs.oracle.com/",
+        "https://docs.oracle.com/"
+    ],
+    "version":"2.1"
+}

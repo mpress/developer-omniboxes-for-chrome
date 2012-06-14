@@ -1,0 +1,12 @@
+{
+    "name":"Spring API Search",
+    "description":"Adds support to the omnibox to search within the Spring API.",
+    "background_page":"background.html",
+    "icons":{"128":"icon128.png", "32":"icon32.png", "16":"icon16.png"},
+    "omnibox":{"keyword":"spring"},
+    "permissions":[
+        "tabs",
+        "*://*.springsource.org/"
+    ],
+    "version":"2.1"
+}
