@@ -1,15 +1,19 @@
 // == Helper Prototype Extensions ==
 Storage.prototype.setObject = function(key, value, opt_expiration) {
+	
     var expiration = opt_expiration || 3e9; // defaults to a little bit more than 1 month
-    if (expiration > 0) {
+    if ( expiration > 0 ) {
+    	
         expiration += Date.now();
     }
-    this.setItem(key, JSON.stringify(value));
-    this.setItem(key + "__expiration", expiration);
+    this.setItem( key, JSON.stringify( value ) );
+    this.setItem( key + "__expiration", expiration );
 };
+
 Storage.prototype.getObject = function(key) {
     return JSON.parse(this.getItem(key));
 };
+
 Storage.prototype.hasUnexpired = function(key) {
     if (!this.getItem(key + "__expiration") || !this.getItem(key)) {
         return false;
@@ -17,21 +21,25 @@ Storage.prototype.hasUnexpired = function(key) {
     var expiration = +this.getItem(key + "__expiration");
     return expiration < Date.now();
 };
+
 String.prototype.startsWith = function(str) {
     if (str.length > this.length) {
         return false;
     }
     return (String(this).substr(0, str.length) == str);
 };
+
 String.prototype.endsWith = function(str) {
     if (str.length > this.length) {
         return false;
     }
     return (String(this).substr(this.length - str.length, this.length) == str);
 };
+
 String.prototype.encode = function() {
     return encodeURIComponent(String(this));
 };
+
 String.prototype.strip = function() {
     var str = String(this);
     if (!str) {
@@ -374,7 +382,7 @@ String.prototype.strip = function() {
             var entry = predefined_[i];
             var namelower = entry["name"].toLowerCase();
             if (namelower == qlower) {
-                nav(entry["url"]));
+                nav( entry["url"] );
                 return;
             }
         }
