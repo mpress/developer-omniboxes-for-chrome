@@ -1,57 +1,82 @@
 // == Helper Prototype Extensions ==
+
 Storage.prototype.setObject = function(key, value, opt_expiration) {
-    var expiration = opt_expiration || 3e9; // defaults to a little bit more than 1 month
-    if (expiration > 0) {
-        expiration += Date.now();
-    }
-    this.setItem(key, JSON.stringify(value));
-    this.setItem(key + "__expiration", expiration);
-};
-Storage.prototype.getObject = function(key) {
-    return JSON.parse(this.getItem(key));
-};
-Storage.prototype.hasUnexpired = function(key) {
-    if (!this.getItem(key + "__expiration") || !this.getItem(key)) {
-        return false;
-    }
-    var expiration = +this.getItem(key + "__expiration");
-    return expiration < Date.now();
-};
-String.prototype.startsWith = function(str) {
-    if (str.length > this.length) {
-        return false;
-    }
-    return (String(this).substr(0, str.length) == str);
-};
-String.prototype.endsWith = function(str) {
-    if (str.length > this.length) {
-        return false;
-    }
-    return (String(this).substr(this.length - str.length, this.length) == str);
-};
-String.prototype.encode = function() {
-    return encodeURIComponent(String(this));
-};
-String.prototype.strip = function() {
-    var str = String(this);
-    if (!str) {
-        return "";
-    }
-    var startidx=0;
-    var lastidx=str.length-1;
-    while ((startidx<str.length)&&(str.charAt(startidx)==' ')){
-        startidx++;
-    }
-    while ((lastidx>=startidx)&&(str.charAt(lastidx)==' ')){
-        lastidx--;
-    }
-    if (lastidx < startidx) {
-        return "";
-    }
-    return str.substring(startidx, lastidx+1);
+  var expiration = opt_expiration || 3e9; // defaults to a little bit more than 1 month
+  
+  if (expiration > 0) {
+    expiration += Date.now();
+  }
+  
+  this.setItem(key, JSON.stringify(value));
+  this.setItem(key + "__expiration", expiration);
 };
 
+Storage.prototype.getObject = function(key) {
+  return JSON.parse(this.getItem(key));
+};
+
+Storage.prototype.hasUnexpired = function(key) {
+  if (!this.getItem(key + "__expiration") || !this.getItem(key)) {
+    return false;
+  }
+    
+  var expiration = +this.getItem(key + "__expiration");
+  return expiration < Date.now();
+};
+
+
+String.prototype.startsWith = function(str) {
+  if (str.length > this.length) {
+    return false;
+  }
+  
+  return (String(this).substr(0, str.length) == str);
+};
+
+
+String.prototype.endsWith = function(str) {
+  if (str.length > this.length) {
+    return false;
+  }
+  return (String(this).substr(this.length - str.length, this.length) == str);
+};
+
+
+String.prototype.encode = function() {
+  return encodeURIComponent(String(this));
+};
+
+
+String.prototype.strip = function() {
+  var str = String(this);
+  
+  if (!str) {
+    return "";
+  }
+ 
+  var startidx=0;
+  var lastidx=str.length-1;
+ 
+  while ((startidx<str.length)&&(str.charAt(startidx)==' ')){
+    startidx++;
+  }
+  while ((lastidx>=startidx)&&(str.charAt(lastidx)==' ')){
+    lastidx--;
+  }
+  
+  if (lastidx < startidx) {
+    return "";
+  }
+    
+  return str.substring(startidx, lastidx+1);
+};
+
+
+
 // == Autocompletion Chrome Extension ==
+// goog.provide( '../common/helpers/storageHelpers.js' );
+//goog.provide( '../common/helpers/stringHelpers.js' );
+
 (function(){
     // Issue a new GET request
     function xhr(url, ifexists, ifnotexists, retry_interval) {
@@ -279,6 +304,6 @@ String.prototype.strip = function() {
             }
         }
         
-        nav("http://www.google.com/search?q=" + encodeURIComponent("ActionScript 3 "+stripped_text));
-    });
+    nav("http://www.google.com/search?q=" + encodeURIComponent("ActionScript 3 "+stripped_text));
+  });
 })();
