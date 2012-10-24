@@ -1,13 +1,14 @@
 // == Helper Prototype Extensions ==
 Storage.prototype.setObject = function(key, value, opt_expiration) {
 	
-    var expiration = opt_expiration || 3e9; // defaults to a little bit more than 1 month
-    if ( expiration > 0 ) {
-    	
-        expiration += Date.now();
-    }
-    this.setItem( key, JSON.stringify( value ) );
-    this.setItem( key + "__expiration", expiration );
+  var expiration = opt_expiration || 3e9; // defaults to a little bit more than 1 month
+    
+  if ( expiration > 0 ) {	
+    expiration += Date.now();
+  }
+  
+  this.setItem(key, JSON.stringify(value));
+  this.setItem(key + "__expiration", expiration);
 };
 
 Storage.prototype.getObject = function(key) {
