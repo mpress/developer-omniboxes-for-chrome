@@ -1,8 +1,12 @@
 var http = require( 'http' );
 var fs = require( 'fs' );
 
+var TARGET_PATH = '/en_US/FlashPlatform/reference/actionscript/3/class-summary.html';
+
+var TARGET_HOST = 'help.adobe.com';
 
 String.prototype.startsWith = function(str) {
+  
   if (str.length > this.length) {
     return false;
   }
@@ -12,7 +16,9 @@ String.prototype.startsWith = function(str) {
 
 
 String.prototype.endsWith = function(str) {
+  
   if (str.length > this.length) {
+  
     return false;
   }
   return (String(this).substr(this.length - str.length, this.length) == str);
@@ -20,21 +26,25 @@ String.prototype.endsWith = function(str) {
 
 
 String.prototype.encode = function() {
+  
   return encodeURIComponent(String(this));
 };
 
 
 String.prototype.strip = function() {
+  
   var str = String(this);
   
   if (!str) {
+    
     return "";
   }
  
-  var startidx=0;
-  var lastidx=str.length-1;
+  var startidx = 0;
+  var lastidx = str.length - 1;
  
-  while ((startidx<str.length)&&(str.charAt(startidx)==' ')){
+  while( (startidx<str.length ) && ( str.charAt( startidx ) == ' ' ) ){
+      
     startidx++;
   }
   while ((lastidx>=startidx)&&(str.charAt(lastidx)==' ')){
@@ -45,7 +55,7 @@ String.prototype.strip = function() {
     return "";
   }
     
-  return str.substring(startidx, lastidx+1);
+  return str.substring( startidx, lastidx + 1 );
 };
 
 
@@ -63,8 +73,6 @@ var downloaded = false;
 
 var scrapeData = function(){
   
-  console.log( 'do the do be do be do' );
-  
   as3_ = [];
   var text = fs.readFileSync( './result.tmp', 'utf8' );
   var slashes = new RegExp("/", "g");
@@ -76,6 +84,7 @@ var scrapeData = function(){
   var dotslash = new RegExp("^\.\/", "");
   var matches = text.match(new RegExp("<td class=\"summaryTableSecondCol\"><a(\\s+target=\"[^\"]*\")?(\\s+href=\"[^\"]*\")>(<i>)?[^<]*(</i>)?</a>(&nbsp;)?(<span(\\s+[^>]*)?>[^<]*</span>)?<br></td><td class=\"summaryTableCol\"><a(\\s+target=\"[^\"]*\")?(\\s+href=\"[^\"]*\")(\\s+onclick=\"[^\"]*\")?>(<i>)?[^<]*(</i>)?</a></td>", "g"));
    
+  fs.appendFileSync( 'index.js', '[' );
   for (var i = 0; i < matches.length; i++) {
         
     var match = matches[i];
@@ -95,19 +104,17 @@ var scrapeData = function(){
     var fqn = href.replace(dothtml,"").replace(slashes, ".").strip();
     as3_.push({"name":classname, "fqn":fqn, "url":href});
     
-    var entry = '{"name" : ' + classname + ', "fqn" : ' + fqn + ', "url" : ' + href + '}\n';
+    var entry = '{"name" : ' + classname + ', "fqn" : ' + fqn + ', "url" : ' + href + '},\n';
     fs.appendFileSync( 'index.js', entry );
   }
-
-   console.log("gotcha", as3_ );
- //  fs.writeFileSync( 'index.js', as3_ );
+  
+  fs.appendFileSync( 'index.js', ']' );
 }
 
 var options = {
-  host: 'help.adobe.com',
+  host: TARGET_HOST,
   port: 80,
-  path: '/en_US/FlashPlatform/reference/actionscript/3/class-summary.html',
- // method: 'GET'
+  path: TARGET_PATH
 };
 
 var req = http.get( options, function( res ) {
@@ -124,22 +131,19 @@ var req = http.get( options, function( res ) {
           
             console.log( error );
         } else {
-          
-           // console.log("The file was saved!", downloaded );
+
             if( downloaded ) {
               
               scrapeData();
               
               fs.unlinkSync('./result.tmp');
             }
-            
         }
       } );
   } );
   
   res.on( 'end', function() {
     
-    console.log( "File downloaded" );
     downloaded = true;
   } );
 } );
@@ -149,9 +153,3 @@ req.on( 'error', function( e ) {
 
   console.log( 'problem with request: ' + e.message );
 } );
-
-// write data to request body
-// req.write( 'data\n' );
-// req.write( 'data\n' );
-// req.end();
-
