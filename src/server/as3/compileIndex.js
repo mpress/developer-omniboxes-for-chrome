@@ -1,23 +1,116 @@
 var http = require( 'http' );
 var fs = require( 'fs' );
 
-var options = {
-  host: 'help.adobe.com',
-  port: 80,
-  path: '/en_US/FlashPlatform/reference/actionscript/3/class-summary.html',
-  method: 'GET'
+
+String.prototype.startsWith = function(str) {
+  if (str.length > this.length) {
+    return false;
+  }
+  
+  return (String(this).substr(0, str.length) == str);
 };
 
-fs.writeFile( './result', '', function( error ) {} );
 
-var scrapeData = function(){
+String.prototype.endsWith = function(str) {
+  if (str.length > this.length) {
+    return false;
+  }
+  return (String(this).substr(this.length - str.length, this.length) == str);
+};
+
+
+String.prototype.encode = function() {
+  return encodeURIComponent(String(this));
+};
+
+
+String.prototype.strip = function() {
+  var str = String(this);
   
-  console.log( 'do the do be do be do' );
+  if (!str) {
+    return "";
+  }
+ 
+  var startidx=0;
+  var lastidx=str.length-1;
+ 
+  while ((startidx<str.length)&&(str.charAt(startidx)==' ')){
+    startidx++;
+  }
+  while ((lastidx>=startidx)&&(str.charAt(lastidx)==' ')){
+    lastidx--;
+  }
+  
+  if (lastidx < startidx) {
+    return "";
+  }
+    
+  return str.substring(startidx, lastidx+1);
+};
+
+
+if( fs.existsSync( './result.tmp' ) ) {
+  
+  fs.writeFile( './result.tmp', '', function( error ) {} );
+}
+
+if( fs.existsSync( 'index.js' ) ) {
+  
+  fs.writeFile( 'index.js', '', function( error ) {} );
 }
 
 var downloaded = false;
 
-var req = http.request( options, function( res ) {
+var scrapeData = function(){
+  
+  console.log( 'do the do be do be do' );
+  
+  as3_ = [];
+  var text = fs.readFileSync( './result.tmp', 'utf8' );
+  var slashes = new RegExp("/", "g");
+  var dothtml = new RegExp(".html", "");
+  var begin_italics = new RegExp("<I>", "g");
+  var end_italics = new RegExp("</I>", "g");
+  var begin_italics_lower = new RegExp("<i>", "g");
+  var end_italics_lower = new RegExp("</i>", "g");
+  var dotslash = new RegExp("^\.\/", "");
+  var matches = text.match(new RegExp("<td class=\"summaryTableSecondCol\"><a(\\s+target=\"[^\"]*\")?(\\s+href=\"[^\"]*\")>(<i>)?[^<]*(</i>)?</a>(&nbsp;)?(<span(\\s+[^>]*)?>[^<]*</span>)?<br></td><td class=\"summaryTableCol\"><a(\\s+target=\"[^\"]*\")?(\\s+href=\"[^\"]*\")(\\s+onclick=\"[^\"]*\")?>(<i>)?[^<]*(</i>)?</a></td>", "g"));
+   
+  for (var i = 0; i < matches.length; i++) {
+        
+    var match = matches[i];
+    var hrefidx = match.indexOf("href=\"");
+    
+    if (hrefidx == -1 ){
+      
+      continue;
+    }
+      
+    hrefidx += 6;
+    var endhrefidx = match.indexOf("\">", hrefidx);
+    var href = match.substring(hrefidx, endhrefidx).replace(dotslash, "").strip();
+    var starta = match.indexOf(">", endhrefidx) + 1;
+    var stopa = match.indexOf("</a>", starta);
+    var classname = match.substring(starta, stopa).replace(begin_italics, "").replace(end_italics, "").replace(begin_italics_lower, "").replace(end_italics_lower, "").strip();
+    var fqn = href.replace(dothtml,"").replace(slashes, ".").strip();
+    as3_.push({"name":classname, "fqn":fqn, "url":href});
+    
+    var entry = '{"name" : ' + classname + ', "fqn" : ' + fqn + ', "url" : ' + href + '}\n';
+    fs.appendFileSync( 'index.js', entry );
+  }
+
+   console.log("gotcha", as3_ );
+ //  fs.writeFileSync( 'index.js', as3_ );
+}
+
+var options = {
+  host: 'help.adobe.com',
+  port: 80,
+  path: '/en_US/FlashPlatform/reference/actionscript/3/class-summary.html',
+ // method: 'GET'
+};
+
+var req = http.get( options, function( res ) {
   
   //console.log( 'STATUS: ' + res.statusCode );
   //console.log( 'HEADERS: ' + JSON.stringify( res.headers ) );
@@ -25,7 +118,7 @@ var req = http.request( options, function( res ) {
   
   res.on( 'data', function ( chunk ) {
     
-      fs.appendFile( './result', chunk, function( error ) {
+      fs.appendFile( './result.tmp', chunk, function( error ) {
     
         if( error ) {
           
@@ -36,6 +129,8 @@ var req = http.request( options, function( res ) {
             if( downloaded ) {
               
               scrapeData();
+              
+              fs.unlinkSync('./result.tmp');
             }
             
         }
@@ -56,6 +151,7 @@ req.on( 'error', function( e ) {
 } );
 
 // write data to request body
-req.write( 'data\n' );
-req.write( 'data\n' );
-req.end();
+// req.write( 'data\n' );
+// req.write( 'data\n' );
+// req.end();
+
