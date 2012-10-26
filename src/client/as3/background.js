@@ -142,7 +142,6 @@ String.prototype.strip = function() {
     
     chrome.omnibox.onInputChanged.addListener( function( text, suggest_callback ) {
         
-        alert( 'listening' );
         setDefaultSuggestion( text );
         if ( !text ) {
             
