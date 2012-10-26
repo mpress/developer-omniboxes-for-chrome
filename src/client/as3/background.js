@@ -1,24 +1,27 @@
+
+// for ( var i=0; i < 5; i++ ) {
+//     
+  // alert( index[ i ].name, index[ i ].fqn, index[ i ].url );
+// };
+
 // == Helper Prototype Extensions ==
 
-for ( var i=0; i < 5; i++ ) {
-  alert( index[i].name, index[i].fqn, index[i].url );
-};
-
-//var data = 
-Storage.prototype.setObject = function(key, value, opt_expiration) {
+Storage.prototype.setObject = function( key, value, opt_expiration ) {
+    
   var expiration = opt_expiration || 3e9; // defaults to a little bit more than 1 month
   
-  if (expiration > 0) {
+  if ( expiration > 0 ) {
+      
     expiration += Date.now();
   }
   
-  this.setItem(key, JSON.stringify(value));
-  this.setItem(key + "__expiration", expiration);
+  this.setItem( key, JSON.stringify( value ) );
+  this.setItem( key + "__expiration", expiration );
 };
 
-Storage.prototype.getObject = function(key) {
+Storage.prototype.getObject = function( key ) {
     
-  return JSON.parse(this.getItem(key));
+  return JSON.parse( this.getItem( key ) );
 };
 
 Storage.prototype.hasUnexpired = function(key) {
@@ -81,10 +84,9 @@ String.prototype.strip = function() {
 
 
 // == Autocompletion Chrome Extension ==
-// goog.provide( '../common/helpers/storageHelpers.js' );
-//goog.provide( '../common/helpers/stringHelpers.js' );
 
-(function(){
+( function(){
+    
     // Issue a new GET request
     function xhr(url, ifexists, ifnotexists, retry_interval) {
         var retry_time = retry_interval || 5;
@@ -114,76 +116,44 @@ String.prototype.strip = function() {
     };
     
     // Sets the the default styling for the first search item
-    function setDefaultSuggestion(text) {
-        if (text) {
-            chrome.omnibox.setDefaultSuggestion({"description":"<url><match>ActionScript 3.0</match></url> " + text});
+    function setDefaultSuggestion( text ) {
+        
+        if( text ) {
+            
+            chrome.omnibox.setDefaultSuggestion( { "description":"<url><match>ActionScript 3.0</match></url> " + text } );
         } else {
-            chrome.omnibox.setDefaultSuggestion({"description":"<url><match>ActionScript 3.0</match></url>"});
+            
+            chrome.omnibox.setDefaultSuggestion( { "description":"<url><match>ActionScript 3.0</match></url>" } );
         }
     };
     
-    // Prefetch necessary data
-    var as3_ = null;
-    chrome.omnibox.onInputStarted.addListener(function(){
-        console.log("Input started");
-        setDefaultSuggestion('');
+   
+    chrome.omnibox.onInputStarted.addListener( function(){
         
-        if (localStorage.hasUnexpired('as3')) {
-            as3_ = localStorage.getObject('as3');
-        } else {
-            xhr("http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/class-summary.html",
-            function(url, req) {
-                console.log("Received: "+url);
-                as3_ = [];
-                var text = req.responseText;
-                var slashes = new RegExp("/", "g");
-                var dothtml = new RegExp(".html", "");
-                var begin_italics = new RegExp("<I>", "g");
-                var end_italics = new RegExp("</I>", "g");
-                var begin_italics_lower = new RegExp("<i>", "g");
-                var end_italics_lower = new RegExp("</i>", "g");
-                var dotslash = new RegExp("^\.\/", "");
-                var matches = text.match(new RegExp("<td class=\"summaryTableSecondCol\"><a(\\s+target=\"[^\"]*\")?(\\s+href=\"[^\"]*\")>(<i>)?[^<]*(</i>)?</a>(&nbsp;)?(<span(\\s+[^>]*)?>[^<]*</span>)?<br></td><td class=\"summaryTableCol\"><a(\\s+target=\"[^\"]*\")?(\\s+href=\"[^\"]*\")(\\s+onclick=\"[^\"]*\")?>(<i>)?[^<]*(</i>)?</a></td>", "g"));
-                for (var i = 0; i < matches.length; i++) {
-                    var match = matches[i];
-                    var hrefidx = match.indexOf("href=\"");
-                    if (hrefidx == -1 ){
-                        continue;
-                    }
-                    hrefidx += 6;
-                    var endhrefidx = match.indexOf("\">", hrefidx);
-                    var href = match.substring(hrefidx, endhrefidx).replace(dotslash, "").strip();
-                    var starta = match.indexOf(">", endhrefidx) + 1;
-                    var stopa = match.indexOf("</a>", starta);
-                    var classname = match.substring(starta, stopa).replace(begin_italics, "").replace(end_italics, "").replace(begin_italics_lower, "").replace(end_italics_lower, "").strip();
-                    var fqn = href.replace(dothtml,"").replace(slashes, ".").strip();
-                    as3_.push({"name":classname, "fqn":fqn, "url":href});
-                }
-                localStorage.setObject('as3', as3_);
-            },
-            function(url, req) {
-                console.log("Failed to receive: "+url);
-            }).send(null);
-        }
-    });
-    
-    chrome.omnibox.onInputCancelled.addListener(function() {
-        console.log("Input cancelled.");
         setDefaultSuggestion('');
-    });
+    } );
     
-    setDefaultSuggestion('');
+    chrome.omnibox.onInputCancelled.addListener( function() {
+        
+        setDefaultSuggestion( '' );
+    } );
     
-    chrome.omnibox.onInputChanged.addListener(function(text, suggest_callback) {
-        setDefaultSuggestion(text);
-        if (!text) {
+    setDefaultSuggestion( '' );
+    
+    chrome.omnibox.onInputChanged.addListener( function( text, suggest_callback ) {
+        
+        alert( 'listening' );
+        setDefaultSuggestion( text );
+        if ( !text ) {
+            
             return;
         }
         
         var kMaxSuggestions = 10;
         var suggestions = [];
         var stripped_text = text.strip();
-        if (!stripped_text) {
+        if ( !stripped_text ) {
+            
             return;
         }
         var qlower = stripped_text.toLowerCase();
@@ -191,55 +161,73 @@ String.prototype.strip = function() {
         var second_ = [];
         var third_ = [];
         var fourth_ = [];
-        if (as3_) {
-            for (var i = 0; i < as3_.length; ++i) {
-                var entry = as3_[i];
-                var name = entry["name"];
-                var fqn = entry["fqn"];
-                var url = "http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/" + entry["url"];
+        if ( index ) {
+            
+            for ( var i = 0; i < index.length; ++i ) {
+                
+                var entry = index[ i ];
+                var name = entry[ "name" ];
+                var fqn = entry[ "fqn" ];
+                var url = "http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/" + entry[ "url" ];
                 var namelower = name.toLowerCase();
                 var fqnlower = fqn.toLowerCase();
-                var nameidx = namelower.indexOf(qlower);
-                var fqnidx = fqnlower.indexOf(qlower);
-                if ((namelower == qlower) || (fqnlower == qlower) || (nameidx !=-1) || (fqnidx !=-1)) {
+                var nameidx = namelower.indexOf( qlower );
+                var fqnidx = fqnlower.indexOf( qlower );
+                if ( ( namelower == qlower ) || ( fqnlower == qlower ) || ( nameidx != -1 ) || ( fqnidx !=-1 ) ) {
+                    
                     var suggestion = {
+                        
                         "content":url,
-                        "description":["<match>", name, "</match> (<match>", fqn, "</match>) - <url>", url, "</url>"].join('')};
-                    if ((namelower == qlower) || (fqnlower == qlower) || (nameidx == 0)) {
+                        "description":["<match>", name, "</match> (<match>", fqn, "</match>) - <url>", url, "</url>"].join('')
+                    };
+                    
+                    if( ( namelower == qlower ) || ( fqnlower == qlower ) || ( nameidx == 0 ) ) {
+                        
                         suggestions.push(suggestion);
-                    } else if (nameidx != -1) {
+                    } else if ( nameidx != -1 ) {
+                        
                         second_.push(suggestion);
-                    } else if (fqnidx == 0) {
-                        third_.push(suggestion);
+                    } else if ( fqnidx == 0 ) {
+                        
+                        third_.push( suggestion );
                     } else {
-                        fourth_.push(suggestion);
+                        
+                        fourth_.push( suggestion );
                     }
                 }
-                if (suggestions.length > kMaxSuggestions) {
+                if ( suggestions.length > kMaxSuggestions ) {
+                    
                     break;
                 }
             }
         }
         
-        if (suggestions.length < kMaxSuggestions) {
-            for (var i = 0; i < second_.length; ++i) {
-                suggestions.push(second_[i]);
+        if ( suggestions.length < kMaxSuggestions ) {
+            
+            for ( var i = 0; i < second_.length; ++i ) {
+                 
+                suggestions.push( second_[ i ] );
             }
         }
 
         if (suggestions.length < kMaxSuggestions) {
+            
             for (var i = 0; i < third_.length; ++i) {
+                
                 suggestions.push(third_[i]);
             }
         }
         
         if (suggestions.length < kMaxSuggestions) {
+            
             for (var i = 0; i < fourth_.length; ++i) {
+                
                 suggestions.push(fourth_[i]);
             }
         }
         
-        if (stripped_text.length >= 2) {
+        if ( stripped_text.length >= 2 ) {
+            
             suggestions.push({"content":stripped_text +  " [Adobe Community Help]", 
                 "description":["Search for \"<match>", stripped_text, "</match>\" using <match><url>Adobe Community Help Search</url></match> - <url>http://community.adobe.com/help/search.html?q=",
                 encodeURIComponent(stripped_text), "&amp;loc=en_US&amp;hl=en_US&amp;lbl=0&amp;go=Search&amp;self=1&amp;site=communityhelp_platform_aslr</url>"].join('')}); 
@@ -248,12 +236,14 @@ String.prototype.strip = function() {
             suggestions.push({"content":stripped_text +  " [Development and Coding Search]",  
                 "description":["Search for \"<match>", stripped_text, "</match>\" using <match><url>Develoment and Coding Search</url></match> - <url>http://www.google.com/cse?cx=005154715738920500810:fmizctlroiw&amp;q=", encodeURIComponent(stripped_text), "</url>"].join('')});
         }
-        suggest_callback(suggestions);
+        suggest_callback( suggestions );
     });
     
     chrome.omnibox.onInputEntered.addListener(function(text) {
-        console.log("Input entered: " + text);
-        if (!text) {
+        
+        //TODO - method doesn't fire if we search for empty string so need to move this ...
+        if ( !text ) {
+            
             nav("http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/");
             return;
         }
@@ -296,9 +286,9 @@ String.prototype.strip = function() {
         }
         
         var qlower = stripped_text.toLowerCase();
-        if (as3_) {
-            for (var i = 0; i < as3_.length; ++i) {
-                var entry = as3_[i];
+        if (index) {
+            for (var i = 0; i < index.length; ++i) {
+                var entry = index[i];
                 var name = entry["name"];
                 var fqn = entry["fqn"];
                 var url = "http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/" + entry["url"];
