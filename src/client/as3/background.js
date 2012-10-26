@@ -1,42 +1,9 @@
-
-// for ( var i=0; i < 5; i++ ) {
-//     
-  // alert( index[ i ].name, index[ i ].fqn, index[ i ].url );
-// };
-
 // == Helper Prototype Extensions ==
 
-Storage.prototype.setObject = function( key, value, opt_expiration ) {
-    
-  var expiration = opt_expiration || 3e9; // defaults to a little bit more than 1 month
-  
-  if ( expiration > 0 ) {
-      
-    expiration += Date.now();
-  }
-  
-  this.setItem( key, JSON.stringify( value ) );
-  this.setItem( key + "__expiration", expiration );
-};
-
-Storage.prototype.getObject = function( key ) {
-    
-  return JSON.parse( this.getItem( key ) );
-};
-
-Storage.prototype.hasUnexpired = function(key) {
-    
-  if (!this.getItem(key + "__expiration") || !this.getItem(key)) {
-    return false;
-  }
-    
-  var expiration = +this.getItem(key + "__expiration");
-  return expiration < Date.now();
-};
-
-
 String.prototype.startsWith = function(str) {
+    
   if (str.length > this.length) {
+      
     return false;
   }
   
@@ -240,31 +207,34 @@ String.prototype.strip = function() {
     
     chrome.omnibox.onInputEntered.addListener(function(text) {
         
-        //TODO - method doesn't fire if we search for empty string so need to move this ...
-        if ( !text ) {
+        if ( text == " " ) {
             
             nav("http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/");
             return;
         }
         
         var stripped_text = text.strip();
-        if (!stripped_text) {
-            nav("http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/");
+        if ( !stripped_text ) {
+            
+            nav( "http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/" );
             return;
         }
         
-        if (stripped_text.startsWith("http://") || stripped_text.startsWith("https://")) {
+        if ( stripped_text.startsWith( "http://" ) || stripped_text.startsWith( "https://" ) ) {
+            
             nav(stripped_text);
             return;
         }
         
         if (stripped_text.startsWith("www.") || stripped_text.endsWith(".com") || stripped_text.endsWith(".net") || stripped_text.endsWith(".org") || stripped_text.endsWith(".edu")) {
+          
             nav("http://" + stripped_text);
             return;
         }
                         
         var adobe_help_suffix = " [Adobe Community Help]";
         if (stripped_text.endsWith(adobe_help_suffix)) {
+         
             var newquery = stripped_text.substring(0, stripped_text.length - adobe_help_suffix.length).strip();
             nav(["http://community.adobe.com/help/search.html?q=", encodeURIComponent(newquery), "&loc=en_US&hl=en_US&lbl=0&go=Search&self=1&site=communityhelp_platform_aslr"].join(''));
             return;
@@ -272,6 +242,7 @@ String.prototype.strip = function() {
         
         var google_codesearch_suffix = " [Google Code Search]";
         if (stripped_text.endsWith(google_codesearch_suffix)) {
+            
             var newquery = stripped_text.substring(0, stripped_text.length - google_codesearch_suffix.length).strip();
             nav("http://code.google.com/codesearch#search/&q=" + encodeURIComponent(newquery + " lang:actionscript"));
             return;
@@ -279,6 +250,7 @@ String.prototype.strip = function() {
         
         var devsearch_suffix = " [Development and Coding Search]";
         if (stripped_text.endsWith(devsearch_suffix)) {
+            
             var newquery = stripped_text.substring(0, stripped_text.length - devsearch_suffix.length).strip();
             nav("http://www.google.com/cse?cx=005154715738920500810:fmizctlroiw&q=" + encodeURIComponent(newquery));
             return;
@@ -286,20 +258,23 @@ String.prototype.strip = function() {
         
         var qlower = stripped_text.toLowerCase();
         if (index) {
+            
             for (var i = 0; i < index.length; ++i) {
+                
                 var entry = index[i];
                 var name = entry["name"];
                 var fqn = entry["fqn"];
                 var url = "http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/" + entry["url"];
                 var namelower = name.toLowerCase();
                 var fqnlower = fqn.toLowerCase();
-                if ((namelower == qlower) || (fqnlower == qlower)) {
-                    nav(url);
+                if( ( namelower == qlower ) || ( fqnlower == qlower ) ) {
+                    
+                    nav( url );
                     return;
                 }
             }
         }
         
     nav("http://www.google.com/search?q=" + encodeURIComponent("ActionScript 3 "+stripped_text));
-  });
-})();
+  } );
+} )();
