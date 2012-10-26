@@ -1,5 +1,10 @@
 // == Helper Prototype Extensions ==
 
+for ( var i=0; i < 5; i++ ) {
+  alert( index[i].name, index[i].fqn, index[i].url );
+};
+
+//var data = 
 Storage.prototype.setObject = function(key, value, opt_expiration) {
   var expiration = opt_expiration || 3e9; // defaults to a little bit more than 1 month
   
@@ -12,10 +17,12 @@ Storage.prototype.setObject = function(key, value, opt_expiration) {
 };
 
 Storage.prototype.getObject = function(key) {
+    
   return JSON.parse(this.getItem(key));
 };
 
 Storage.prototype.hasUnexpired = function(key) {
+    
   if (!this.getItem(key + "__expiration") || !this.getItem(key)) {
     return false;
   }
