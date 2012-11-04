@@ -2,7 +2,7 @@ var http = require('http');
 
 var fs = require('fs');
 
-eval( fs.readFileSync( '../common/String.js' ) + '' );
+eval( fs.readFileSync( '../../common/String.js' ) + '' );
 
 var TARGET_PATH = '/manual/en/indexes.functions.php';
 
@@ -65,8 +65,8 @@ var options = {
 
 var req = http.get( options, function( res ) {
 
-    console.log( 'STATUS: ' + res.statusCode );
-    console.log( 'HEADERS: ' + JSON.stringify( res.headers ) );
+    // console.log( 'STATUS: ' + res.statusCode );
+    // console.log( 'HEADERS: ' + JSON.stringify( res.headers ) );
     res.setEncoding( 'utf8' );
 
     res.on( 'data', function( chunk ) {

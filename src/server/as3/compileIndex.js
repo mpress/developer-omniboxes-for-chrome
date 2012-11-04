@@ -2,7 +2,7 @@ var http = require('http');
 
 var fs = require('fs');
 
-eval( fs.readFileSync( '../common/String.js' ) + '' );
+eval( fs.readFileSync( '../../common/String.js' ) + '' );
 
 
 var TARGET_PATH = '/en_US/FlashPlatform/reference/actionscript/3/class-summary.html';

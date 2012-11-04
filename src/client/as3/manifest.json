@@ -8,8 +8,7 @@
   "icons": { "128" : "icon128.png", "32" : "icon32.png", "16" : "icon16.png" },
   "omnibox":{ "keyword":"as3" },
   "permissions":[ 
-    "tabs",
-    "*://help.adobe.com/"
+    "tabs"
   ],
-  "version":"3.0.0"
+  "version":"3.0.1"
 }
