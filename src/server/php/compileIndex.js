@@ -2,7 +2,7 @@ var http = require('http');
 
 var fs = require('fs');
 
-eval( fs.readFileSync( '../../common/String.js' ) + '' );
+eval( fs.readFileSync( '../common/String.js' ) + '' );
 
 var TARGET_PATH = '/manual/en/indexes.functions.php';
 
@@ -50,7 +50,7 @@ var scrapeData = function() {
         }
         php_functions_.push(
             { "name" : content.replace( arrow, "." ), 
-              "url" : [ "www.php.net", "manual/", href ].join( '' ) }//base, "manual/", href ].join( '' ) }
+              "url" : [ "manual/", href ].join( '' ) }//base, "manual/", href ].join( '' ) }
         );
     }
     

@@ -3,9 +3,9 @@
   "manifest_version" : 2, 
   "description" : "Adds support to the omnibox to search the AS3 reference docs.",
   "background" : {
-     "scripts":[ "index.js", "background.js" ]
+     "scripts":[ "String.js", "index.js", "background.js" ]
   },
-  "icons": { "128" : "icon128.png", "32" : "icon32.png", "16" : "icon16.png" },
+  "icons": { "128" : "icons/icon128.png", "32" : "icons/icon32.png", "16" : "icons/icon16.png" },
   "omnibox":{ "keyword":"as3" },
   "permissions":[ 
     "tabs"
