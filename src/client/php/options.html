@@ -1,6 +1,8 @@
 <html>
+    
     <body>
-        <div id="content" style="text-align:center;display:none">
+        
+       <div id="content" style="text-align:center;display:none">
         
             <form name="extension_configuration" action="javascript:void(0)">
                 <label for="mirror_sites">Mirror Site</label>
@@ -44,9 +46,10 @@
                 if ( req.readyState == 4 ){
                     
                     var status=req.status;
-                    if ((status == 200) || (status == 301) || (status == 302)) {
+                    if ( ( status == 200 ) || ( status == 301 ) || ( status == 302 ) ) {
+                        
                         var text = req.responseText;
-                        var matches = text.match(new RegExp("<td><a href=\"http://([a-z]|[A-Z]|[0-9])+\.php\.net/\">([a-z]|[A-Z]|[0-9])+\.php\.net</a></td>", "g"));
+                        var matches = text.match( new RegExp("<td><a href=\"http://([a-z]|[A-Z]|[0-9])+\.php\.net/\">([a-z]|[A-Z]|[0-9])+\.php\.net</a></td>", "g"));
                         for (var i = 0; i < matches.length; ++i) {
                             var match = matches[i];
                             var hrefstartiddx = match.indexOf("http://") + 7;
@@ -67,6 +70,6 @@
                 }
             };
             req.send(null);
-        </script>
+        </script> 
     </body>
 </html>

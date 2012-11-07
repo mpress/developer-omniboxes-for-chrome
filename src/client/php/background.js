@@ -1,30 +1,7 @@
 (function(){
-    // Issue a new GET request
-    // function xhr(url, ifexists, ifnotexists, retry_interval) {
-        // var retry_time = retry_interval || 5;
-        // var req = new XMLHttpRequest();
-        // console.log("Fetching: " + url);
-        // req.open("GET", url);
-        // req.setRequestHeader("Cache-Control", "max-age=2592000"); // 30 days
-        // req.onreadystatechange=function(){
-            // if (req.readyState == 4){
-                // var status=req.status;
-                // if ((status == 200) || (status == 301) || (status == 302)) {
-                    // ifexists(url, req);
-                // } else {
-                    // ifnotexists(url, req);
-                    // setTimeout(function() { xhr(url, ifexists, ifnotexists, retry_time * 10).send(null); }, retry_time);
-                // }
-            // }
-        // };
-        // return req;
-    // };
-    
-    
-    
+     
     function navigateTo( url ) {
         
-        console.log( "Navigating to: " + url );
         chrome.tabs.getSelected( null, function( tab ) {
             
             chrome.tabs.update( tab.id, { url: url } );
@@ -49,11 +26,12 @@
     };
     
     function baseurl() {
-        return ['http://', mirror(), '/'].join('');
+        return ['http://', mirror() ].join('');
     };
     
     function loadBalanced(baseurl) {
-      if (baseurl != "http://www.php.net/") {
+      if ( baseurl != "http://www.php.net/" ) {
+          
         return baseurl;
       }
       
@@ -70,18 +48,18 @@
     
   
     var predefined_ = [
-        {"name":"bool","url":"manual/language.types.boolean.php"},
-        {"name":"boolean","url":"manual/language.types.boolean.php"},
-        {"name":"int","url":"manual/language.types.integer.php"},
-        {"name":"integer","url":"manual/language.types.integer.php"},
-        {"name":"float","url":"manual/language.types.float.php"},
-        {"name":"double","url":"manual/language.types.float.php"},
-        {"name":"real","url":"manual/language.types.float.php"},
-        {"name":"string","url":"manual/language.types.string.php"},
-        {"name":"array","url":"manual/language.types.array.php"},
-        {"name":"object","url":"manual/language.types.object.php"},
-        {"name":"resource","url":"manual/language.types.resource.php"},
-        {"name":"null","url":"manual/language.types.null.php"}
+        { "name" : "bool", "url" : "manual/language.types.boolean.php" },
+        { "name" : "boolean", "url" : "manual/language.types.boolean.php" },
+        { "name" : "int", "url" : "manual/language.types.integer.php" },
+        { "name" : "integer", "url" : "manual/language.types.integer.php" },
+        { "name" : "float", "url" : "manual/language.types.float.php" },
+        { "name" : "double", "url" : "manual/language.types.float.php" },
+        { "name" : "real", "url" : "manual/language.types.float.php" },
+        { "name" : "string", "url" : "manual/language.types.string.php" },
+        { "name" : "array", "url" : "manual/language.types.array.php" },
+        { "name" : "object", "url" : "manual/language.types.object.php" },
+        { "name" : "resource", "url" : "manual/language.types.resource.php" },
+        { "name" : "null", "url" : "manual/language.types.null.php" }
     ];
 
     chrome.omnibox.onInputStarted.addListener( function(){
@@ -111,6 +89,8 @@
             
             return;
         }
+
+        
         var arrow = new RegExp( "->", "g" );
         var qlower = stripped_text.toLowerCase();
         if ( qlower.endsWith( "-" ) ){
@@ -161,7 +141,6 @@
                 if ( nameidx != -1 ) {
                     
                     var url = base + entry[ "url" ];
-                    console.log( url );
                     var target = null;
                     if ( nameidx == 0 ) {
                         
@@ -197,8 +176,8 @@
         
         if ( stripped_text.length >= 2 ) {
             
-            suggestions.push({"content":stripped_text + " [PHP Search]",
-                "description":["Search for \"<match>", stripped_text, "</match>\" using <match><url>PHP Search</url></match> - <url>", base ,"manual-lookup.php?pattern=", encodeURIComponent(stripped_text), "&amp;lang=en</url>"].join('')});
+            suggestions.push( { "content" : stripped_text + " [PHP Search]",
+                "description" : ["Search for \"<match>", stripped_text, "</match>\" using <match><url>PHP Search</url></match> - <url>", base ,"manual-lookup.php?pattern=", encodeURIComponent(stripped_text), "&amp;lang=en</url>"].join('')});
             
             suggestions.push({"content":stripped_text +  " [Google Code Search]", 
                 "description":["Search for \"<match>", stripped_text, "</match> <dim>lang:php</dim>\" using <match><url>Google Code Search</url></match> - <url>http://code.google.com/codesearch#search/&amp;q=", encodeURIComponent(stripped_text + " lang:php"), "</url>"].join('')}); 
@@ -212,7 +191,6 @@
     
     chrome.omnibox.onInputEntered.addListener( function( text ) {
         
-        console.log( "Input entered: " + text );
         var base = baseurl();
         if ( !text ) {
             
@@ -221,10 +199,20 @@
         }
         
         var stripped_text = text.strip();
+        
         if (!stripped_text || stripped_text == "" ) {
+        
             navigateTo(base + "manual/index.php");
             return;
         }
+        
+        if( stripped_text == "options" ) {
+        
+            var optionsUrl = chrome.extension.getURL("options.html");
+            chrome.tabs.create( { url : optionsUrl } );
+            return;
+        }
+        
         
         if (stripped_text.startsWith("http://") || stripped_text.startsWith("https://")) {
             
@@ -241,7 +229,6 @@
         var php_suffix = " [PHP Search]";
         if (stripped_text.endsWith(php_suffix)) {
             
-            console.log( 'php suffix' );
             var newquery = stripped_text.substring(0, stripped_text.length - php_suffix.length).strip();
             navigateTo([base, "manual-lookup.php?pattern=", encodeURIComponent(newquery), "&lang=en"].join(''));
             return;
@@ -268,7 +255,6 @@
             var entry = predefined_[i];
             if (entry["name"].toLowerCase() == qlower) {
                 
-                console.log( 'ql;pwer' );
                 navigateTo(base+entry["url"]);
                 return;
             }
@@ -279,7 +265,6 @@
                 var entry = index[i];
                 if (entry["name"].toLowerCase() == qlower) {
                     
-                    console.log( 'entry to ufdf' );
                     navigateTo(entry["url"]);
                     return;
                 }

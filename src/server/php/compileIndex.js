@@ -54,7 +54,8 @@ var scrapeData = function() {
         );
     }
     
-    fs.appendFileSync( 'index.js', "var index = " + JSON.stringify( php_functions_ ) );
+    console.log( "oops i did it again!" );
+    fs.appendFileSync( 'index.js', "var index = " + JSON.stringify( php_functions_, null, '\t' ) );
 
 }
 var options = {
