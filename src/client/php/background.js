@@ -22,11 +22,11 @@
     
     function mirror() {
         
-        return localStorage['mirror'] || 'www.php.net/';
+        return localStorage['mirror'] || 'http://www.php.net/';
     };
     
     function baseurl() {
-        return ['http://', mirror() ].join('');
+        return [ mirror() ].join('');
     };
     
     function loadBalanced(baseurl) {
