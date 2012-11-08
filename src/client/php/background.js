@@ -89,7 +89,6 @@
             
             return;
         }
-
         
         var arrow = new RegExp( "->", "g" );
         var qlower = stripped_text.toLowerCase();
@@ -202,7 +201,7 @@
         
         if (!stripped_text || stripped_text == "" ) {
         
-            navigateTo(base + "manual/index.php");
+            navigateTo( base + "manual/index.php" );
             return;
         }
         
@@ -213,9 +212,9 @@
         }
         
         
-        if (stripped_text.startsWith("http://") || stripped_text.startsWith("https://")) {
+        if ( stripped_text.startsWith( "http://" ) || stripped_text.startsWith( "https://" ) ) {
             
-            navigateTo(stripped_text);
+            navigateTo( stripped_text );
             return;
         }
         
@@ -241,7 +240,7 @@
         }
         
         var devsearch_suffix = " [Development and Coding Search]";
-        if (stripped_text.endsWith(devsearch_suffix)) {
+        if (stripped_text.endsWith( devsearch_suffix ) ) {
             var newquery = stripped_text.substring(0, stripped_text.length - devsearch_suffix.length).strip();
             navigateTo("http://www.google.com/cse?cx=005154715738920500810:fmizctlroiw&q=" + encodeURIComponent("PHP "+newquery));
             return;
