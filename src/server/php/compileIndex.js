@@ -1,6 +1,6 @@
-var http = require('http');
+var http = require( 'http' );
 
-var fs = require('fs');
+var fs = require( 'fs' );
 
 eval( fs.readFileSync( '../common/String.js' ) + '' );
 

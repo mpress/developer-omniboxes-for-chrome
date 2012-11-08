@@ -14,7 +14,7 @@
                     delete localStorage[ 'mirror' ];
                 } else {
                     
-                    localStorage[ 'mirror' ] = value;
+                    localStorage[ 'mirror' ] = value + '/';
                 }
                 
                 document.getElementById( "status" ).innerHTML = '<font color=\"green\">Changes saved.</font>';
@@ -49,9 +49,29 @@
                                 total++;
                             }
                         }
+                        
+                        
                         document.extension_configuration.mirror_sites.onchange = selectionChanged;
                         document.getElementById( "status" ).innerHTML = '';
                         document.getElementById( "content" ).style.display = "block";
+                        
+                       //TODO - move this to do the first time
+                       // then redo this page to work by parsing xml and give option of changing default
+                        var dp = new DOMParser();
+                        var xDoc = dp.parseFromString( text, "text/xml" );
+                       var mirrorList = xDoc.getElementsByTagName( 'table' );//( "mirrors" );
+                       
+                       if( mirrorList.length == 2 ) {
+                          
+                          localStorage[ 'mirror' ] = value + '/'; 
+                          var anchors = mirrorList[ 0 ].getElementsByTagName( 'a' );
+                          
+                          //TODO randomise tag selection
+                          var href = anchors[ 0 ].getAttribute( "href" );
+                       }
+                       
+                        console.log( href );
+                        localStorage[ 'mirror' ] = href;
                     }
                 }
             };

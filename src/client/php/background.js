@@ -194,7 +194,7 @@
         var base = baseurl();
         if ( !text ) {
             
-            navigateTo( base + "manual/index.php");
+            navigateTo( base + "manual/index.php" );
             return;
         }
         
@@ -208,8 +208,7 @@
         
         if( stripped_text == "options" ) {
         
-            var optionsUrl = chrome.extension.getURL("options.html");
-            chrome.tabs.create( { url : optionsUrl } );
+            chrome.tabs.create( { url : 'options.html' } );
             return;
         }
         
