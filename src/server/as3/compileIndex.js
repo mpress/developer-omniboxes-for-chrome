@@ -65,7 +65,7 @@ var scrapeData = function() {
         });
     }
 
-    fs.appendFileSync('index.js', "var index = " + JSON.stringify( as3_ ) );
+    fs.appendFileSync('index.js', "var index = " + JSON.stringify( as3_, null, '\t' ) );
 }
 var options = {
     host : TARGET_HOST,

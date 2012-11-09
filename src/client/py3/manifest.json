@@ -3,7 +3,7 @@
     "manifest_version":2, 
     "description":"Adds support to the omnibox to search Python 3.0+ reference documentation.",
     "background":{
-       "scripts":[ "background.js" ]
+       "scripts":[ "String.js", "background.js" ]
     },
     "icons":{"128":"icon128.png", "32":"icon32.png", "16":"icon16.png"},
     "omnibox":{"keyword":"py3"},
@@ -11,5 +11,5 @@
         "tabs",
         "http://docs.python.org/"
     ],
-    "version":"2.2.0"
+    "version":"3.0.0"
 }

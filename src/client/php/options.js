@@ -13,7 +13,7 @@ function selectionChanged() {
         delete localStorage[ 'mirror' ];
     } else {
         
-        localStorage[ 'mirror' ] = value + '/';
+        localStorage[ 'mirror' ] = "www." + value + '/';
     }
     
     document.getElementById( "status" ).innerHTML = '<font color=\"green\">Changes saved.</font>';
