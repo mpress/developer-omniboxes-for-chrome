@@ -10,6 +10,7 @@
 	function navigateToTranslation( tab ){
 	
 		var currentUrl = tab.url;
+			
 		var newUrl = currentUrl.replace( localStorage[ 'previousLocale' ], localStorage[ 'locale' ] );
 		navigateTo( newUrl );
 	}   

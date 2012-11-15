@@ -14,7 +14,7 @@
   	"page_action": {
     	"default_icon": {                    
       		"19": "action/flags/19/en_US.jpg",       
-      		"38": "action/flags/38/en_US.png"        
+      		"38": "action/flags/38/en_US.jpg"        
     	},
     	"default_title": "AS3 language",      
     	"default_popup": "action/popup.html"        

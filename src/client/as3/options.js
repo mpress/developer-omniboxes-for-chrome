@@ -5,6 +5,11 @@ function selectionChanged() {
     
     localStorage[ 'previousLocale' ] = localStorage[ 'locale' ];
     localStorage[ 'locale' ] = value;
+    
+    if( isPopup ){
+    
+    	setTimeout(function() { window.close(); },  1000 );	
+    }
 };
 
 

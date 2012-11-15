@@ -1,0 +1,13 @@
+body {
+  font-family: arial, sans-serif;
+  font-size: 100%;
+  margin: 10px;
+}
+
+#header h1 {
+  font-size: 115%;
+  padding-bottom: 43px;
+  padding-left: 75px;
+  padding-top: 40px;
+  color: #6a6169;
+}
