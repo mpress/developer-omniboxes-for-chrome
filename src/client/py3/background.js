@@ -1,8 +1,3 @@
-// == Helper Prototype Extensions ==
-
-
-
-
 
 (function(){
     // Issue a new GET request

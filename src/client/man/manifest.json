@@ -1,13 +1,16 @@
 {
-    "name":"UNIX Manual Pages",
-    "description":"Adds support to the omnibox to search UNIX manual pages.",
-    "background_page":"background.html",
-    "icons":{"128":"icon128.png", "32":"icon32.png", "16":"icon16.png"},
-    "omnibox":{"keyword":"man"},
-    "permissions":[
+    "name" : "UNIX Manual Pages",
+    "description" : "Adds support to the omnibox to search UNIX manual pages.",
+    "manifest_version" : 2, 
+    "background" : {
+         "scripts" : [ "background.js" ]
+    },
+    "icons" : { "128" : "icon128.png", "32" : "icon32.png", "16" : "icon16.png" },
+    "omnibox" : { "keyword" : "man" },
+    "permissions" : [
         "tabs",
         "*://*.opengroup.org/",
         "*://linux.die.net/"
     ],
-    "version":"6.0"
+    "version" : "6.1"
 }

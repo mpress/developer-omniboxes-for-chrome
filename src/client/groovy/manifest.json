@@ -1,12 +1,15 @@
 {
-    "name":"Groovy API Search",
-    "description":"Adds support to the omnibox to search the Groovy API.",
-    "background_page":"background.html",
-    "icons":{"128":"icon128.png", "32":"icon32.png", "16":"icon16.png"},
-    "omnibox":{"keyword":"groovy"},
-    "permissions":[
+    "name" : "Groovy API Search",
+    "description" : "Adds support to the omnibox to search the Groovy API.",
+    "manifest_version" : 2, 
+    "background" : {
+         "scripts" : [ "background.js" ]
+    },
+    "icons" : { "128" : "icon128.png", "32" : "icon32.png", "16" : "icon16.png" },
+    "omnibox" : { "keyword" : "groovy" },
+    "permissions" : [
         "tabs",
         "*://groovy.codehaus.org/"
     ],
-    "version":"2.0"
+    "version" : "2.1"
 }

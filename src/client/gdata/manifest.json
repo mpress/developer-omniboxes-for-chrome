@@ -1,12 +1,15 @@
 {
-    "name":"GData™ API Search",
-    "description":"Adds support to the omnibox to search within the GData API for Java.",
-    "background_page":"background.html",
-    "icons":{"128":"icon128.png", "32":"icon32.png", "16":"icon16.png"},
-    "omnibox":{"keyword":"gdata"},
-    "permissions":[
+    "name" : "GData™ API Search",
+    "description" : "Adds support to the omnibox to search within the GData API for Java.",
+    "manifest_version" : 2, 
+    "background" : {
+         "scripts" : [ "background.js" ]
+    },
+    "icons" : { "128" : "icon128.png", "32" : "icon32.png", "16" : "icon16.png" },
+    "omnibox" : { "keyword" : "gdata" },
+    "permissions" : [
         "tabs",
         "*://code.google.com/"
     ],
-    "version":"2.0"
+    "version":"2.1"
 }

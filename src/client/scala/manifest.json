@@ -1,14 +1,22 @@
-
 {
-  "name": "Scala API Search",
-  "description": "Adds support to the omnibox to search within the Scala API.",
-  "background_page": "background.html",
-  "icons": {"128": "icon128.png", "32": "icon32.png", "16": "icon16.png"},
-  "omnibox": {"keyword": "scala"},
-  "permissions":[
-    "tabs",
-    "http://www.scala-lang.org/",
-    "https://www.scala-lang.org/"
-  ],
-  "version": "1.0.0"
+	"name" : "Scala API Search",
+	"description" : "Adds support to the omnibox to search within the Scala API.",
+	"manifest_version" : 2,
+	"background" : {
+		"scripts" : [ "background.js" ]
+	},
+	"icons" : {
+		"128" : "icon128.png",
+		"32" : "icon32.png",
+		"16" : "icon16.png"
+	},
+	"omnibox" : {
+		"keyword" : "scala"
+	},
+	"permissions": [
+		"tabs", 
+		"http://www.scala-lang.org/", 
+		"https://www.scala-lang.org/"
+	],
+	"version" : "2.0.0"
 }

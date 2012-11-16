@@ -1,12 +1,21 @@
 {
-    "name":"Ruby API Search",
-    "description":"Adds support to the omnibox to search the Ruby API.",
-    "background_page":"background.html",
-    "icons":{"128":"icon128.png", "32":"icon32.png", "16":"icon16.png"},
-    "omnibox":{"keyword":"rb"},
-    "permissions":[
-        "tabs",
-        "http://www.ruby-doc.org/"
-    ],
-    "version":"2.4"
+	"name" : "Ruby API Search",
+	"description" : "Adds support to the omnibox to search the Ruby API.",
+	"manifest_version" : 2,
+	"background" : {
+		"scripts" : [ "background.js"]
+	},
+	"icons" : {
+		"128" : "icon128.png",
+		"32" : "icon32.png",
+		"16" : "icon16.png"
+	},
+	"omnibox" : {
+		"keyword" : "rb"
+	},
+	"permissions" : [
+		"tabs", 
+		"http://www.ruby-doc.org/"
+	],
+	"version" : "2.5"
 }

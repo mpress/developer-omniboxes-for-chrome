@@ -1,12 +1,21 @@
 {
-    "name":"MySQL Search",
-    "description":"Adds support to the omnibox to search the MySQL reference.",
-    "background_page":"background.html",
-    "icons":{"128":"icon128.png", "32":"icon32.png", "16":"icon16.png"},
-    "omnibox":{"keyword":"mysql"},
-    "permissions":[
-        "tabs",
-        "*://dev.mysql.com/"
-    ],
-    "version":"2.0"
+	"name" : "MySQL Search",
+	"description" : "Adds support to the omnibox to search the MySQL reference.",
+	"manifest_version" : 2, 
+    "background" : {
+         "scripts" : [ "background.js" ]
+    },
+	"icons" : {
+		"128" : "icon128.png",
+		"32" : "icon32.png",
+		"16" : "icon16.png"
+	},
+	"omnibox" : {
+		"keyword" : "mysql"
+	},
+	"permissions" : [
+		"tabs", 
+		"*://dev.mysql.com/"
+	],
+	"version" : "2.1"
 }

@@ -126,7 +126,6 @@
     
     chrome.omnibox.onInputEntered.addListener( function( text ) {
     	
-        console.log( "Input entered: " + text );
         if( !text ) {
         
             navigateTo( "http://docs.oracle.com/javase/7/docs/api/" );

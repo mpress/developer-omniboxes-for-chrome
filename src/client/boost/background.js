@@ -285,8 +285,8 @@ String.prototype.strip = function() {
                 
         
         if (stripped_text.length >= 2) {
-            suggestions.push({"content":stripped_text +  " [Boost Custom Search]",
-                "description":["Search for \"<match>", stripped_text, "</match>\" using <match><url>Boost Custom Search</url></match> - <url>http://www.google.com/custom?cof=LW%3A277%3BL%3Ahttp%3A%2F%2Fwww.boost.org%2Fboost.png%3BLH%3A86%3BAH%3Acenter%3BGL%3A0%3BS%3Ahttp%3A%2F%2Fwww.boost.org%3BAWFID%3A9b83d16ce652ed5a%3B&amp;sa=Google+Search&amp;domains=www.boost.org%3Blists.boost.org&amp;hq=site%3Awww.boost.org+OR+site%3Alists.boost.org&amp;q=", encodeURIComponent(stripped_text), "</url>"].join('')});
+            // suggestions.push({"content":stripped_text +  " [Boost Custom Search]",
+                // "description":["Search for \"<match>", stripped_text, "</match>\" using <match><url>Boost Custom Search</url></match> - <url>http://www.google.com/custom?cof=LW%3A277%3BL%3Ahttp%3A%2F%2Fwww.boost.org%2Fboost.png%3BLH%3A86%3BAH%3Acenter%3BGL%3A0%3BS%3Ahttp%3A%2F%2Fwww.boost.org%3BAWFID%3A9b83d16ce652ed5a%3B&amp;sa=Google+Search&amp;domains=www.boost.org%3Blists.boost.org&amp;hq=site%3Awww.boost.org+OR+site%3Alists.boost.org&amp;q=", encodeURIComponent(stripped_text), "</url>"].join('')});
             suggestions.push({"content":stripped_text +  " [Google Code Search]", 
                 "description":["Search for \"<dim>boost</dim> <match>", stripped_text, "</match> <dim>lang:c++</dim>\" using <match><url>Google Code Search</url></match> - <url>http://code.google.com/codesearch#search/&amp;q=", encodeURIComponent("boost "+stripped_text+" lang:c++"), "</url>"].join('')}); 
             suggestions.push({"content":stripped_text +  " [Development and Coding Search]", 

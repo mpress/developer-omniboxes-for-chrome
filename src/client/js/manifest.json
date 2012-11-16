@@ -1,15 +1,15 @@
 {
-    "name":"JavaScript API Search",
-    "manifest_version":2, 
-    "description":"Adds support to the omnibox to search the JavaScript API.",
-    "background":{
-	   "scripts":[ "background.js" ]
+    "name" : "JavaScript API Search",
+    "manifest_version" : 2, 
+    "description" : "Adds support to the omnibox to search the JavaScript API.",
+    "background" : {
+	   "scripts" : [ "background.js" ]
     },
-    "icons":{"128":"icon128.png", "32":"icon32.png", "16":"icon16.png"},
-    "omnibox":{"keyword":"js"},
-    "permissions":[
+    "icons" : { "128" : "icon128.png", "32" : "icon32.png", "16" : "icon16.png" },
+    "omnibox" : { "keyword":"js" },
+    "permissions" : [
         "tabs",
         "*://developer.mozilla.org/"
     ],
-    "version":"3.1.0"
+    "version" : "3.1.0"
 }

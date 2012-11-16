@@ -30,6 +30,7 @@
     };
     
     function loadBalanced(baseurl) {
+    	
       if ( baseurl != "http://www.php.net/" ) {
           
         return baseurl;
@@ -258,12 +259,12 @@
             }
         }
         
-        if (index) {
-            for (var i = 0; i < index.length; ++i) {
-                var entry = index[i];
-                if (entry["name"].toLowerCase() == qlower) {
+        if ( index ) {
+            for ( var i = 0; i < index.length; ++i ) {
+                var entry = index[ i ];
+                if ( entry[ "name" ].toLowerCase() == qlower ) {
                     
-                    navigateTo(entry["url"]);
+                    navigateTo( entry[ "url" ] );
                     return;
                 }
             }
@@ -279,6 +280,6 @@
             // }
         // }
         
-        navigateTo("http://www.google.com/search?q=" + encodeURIComponent("PHP "+stripped_text));
-    });
-})();
+        navigateTo("http://www.google.com/search?q=" + encodeURIComponent( "PHP " + stripped_text));
+    } );
+} )();
