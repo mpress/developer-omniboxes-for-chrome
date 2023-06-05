@@ -5,7 +5,6 @@ var fs = require('fs');
 eval( fs.readFileSync( '../common/String.js' ) + '' );
 
 var TARGET_PATH = '/en/java/javase/20/docs/api/allclasses-index.html';
-//var TARGET_PATH = '/javase/7/docs/api/allclasses-frame.html';
 
 var TARGET_HOST = 'docs.oracle.com';
 
