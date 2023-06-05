@@ -54,7 +54,8 @@
             	
                 var item = index[ i ];
                 var fqn = item[ "fqn" ];
-                var url = "http://docs.oracle.com/javase/7/docs/api/" + item[ "url" ];
+                var url = "https://docs.oracle.com/en/java/javase/20/docs/api/" + item[ "url" ];
+                // var url = "http://docs.oracle.com/javase/7/docs/api/" + item[ "url" ];
                 var name = item[ "name" ];
                 var type = item[ "type" ];
                 var namelower = name.toLowerCase();
@@ -128,14 +129,15 @@
     	
         if( !text ) {
         
-            navigateTo( "http://docs.oracle.com/javase/7/docs/api/" );
+            navigateTo( "https://docs.oracle.com/en/java/javase/20/docs/api/" );
+           // navigateTo( "http://docs.oracle.com/javase/7/docs/api/" );
             return;
         }
         
         var stripped_text = text.strip();
         if( !stripped_text || stripped_text == ' ' ) {
         
-            navigateTo( "http://docs.oracle.com/javase/7/docs/api/" );
+            navigateTo( "https://docs.oracle.com/en/java/javase/20/docs/api/" );
             return;
         }
         
@@ -175,7 +177,7 @@
             	
                 var item = index[ i ];
                 var fqn = item[ "fqn" ];
-                var url = "http://docs.oracle.com/javase/7/docs/api/" + item[ "url" ];
+                var url = "https://docs.oracle.com/en/java/javase/20/docs/api/" + item[ "url" ];
                 var name = item[ "name" ];
                 var fqnlower = fqn.toLowerCase();
                 if ( fqnlower == qlower ) {
