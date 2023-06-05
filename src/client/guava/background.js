@@ -1,3 +1,5 @@
+// https://guava.dev/releases/18.0/api/docs/
+
 // == Helper Prototype Extensions ==
 Storage.prototype.setObject = function(key, value, opt_expiration) {
     var expiration = opt_expiration || 3e9; // defaults to a little bit more than 1 month
@@ -17,38 +19,8 @@ Storage.prototype.hasUnexpired = function(key) {
     var expiration = +this.getItem(key + "__expiration");
     return expiration < Date.now();
 };
-String.prototype.startsWith = function(str) {
-    if (str.length > this.length) {
-        return false;
-    }
-    return (String(this).substr(0, str.length) == str);
-};
-String.prototype.endsWith = function(str) {
-    if (str.length > this.length) {
-        return false;
-    }
-    return (String(this).substr(this.length - str.length, this.length) == str);
-};
 String.prototype.encode = function() {
     return encodeURIComponent(String(this));
-};
-String.prototype.strip = function() {
-    var str = String(this);
-    if (!str) {
-        return "";
-    }
-    var startidx=0;
-    var lastidx=str.length-1;
-    while ((startidx<str.length)&&(str.charAt(startidx)==' ')){
-        startidx++;
-    }
-    while ((lastidx>=startidx)&&(str.charAt(lastidx)==' ')){
-        lastidx--;
-    }
-    if (lastidx < startidx) {
-        return "";
-    }
-    return str.substring(startidx, lastidx+1);
 };
 
 // == Autocompletion Chrome Extension ==
@@ -119,7 +91,7 @@ String.prototype.strip = function() {
                     var contentstartidx = match.indexOf(">", titleendidx) + 1;
                     var contentendidx = match.indexOf("</a>", contentstartidx);
                     var content = match.substring(contentstartidx, contentendidx).replace(italic_begin, "").replace(italic_end, "");
-                    var type = title.substring(0, title.indexOf(" in ")).strip();
+                    var type = title.substring(0, title.indexOf(" in ")).trim();
                     type = type.charAt(0).toUpperCase() + type.substr(1);
                     var fqn = href.replace(slashes, ".").replace(dothtml, "");
                     guava_api_.push({"name":content, "fqn":fqn, "url":href, "type":type});
@@ -148,7 +120,7 @@ String.prototype.strip = function() {
         
         var suggestions = [];
         var kMaxSuggestions = 10;
-        var stripped_text = text.strip();
+        var stripped_text = text.trim();
         if (!stripped_text) {
             return;
         }
@@ -207,7 +179,7 @@ String.prototype.strip = function() {
             return;
         }
         
-        var stripped_text = text.strip();
+        var stripped_text = text.trim();
         if (!stripped_text) {
             nav("http://guava-libraries.googlecode.com/svn/trunk/javadoc/index.html");
             return;
@@ -225,14 +197,14 @@ String.prototype.strip = function() {
                 
         var google_codesearch_suffix = " [Google Code Search]";
         if (stripped_text.endsWith(google_codesearch_suffix)) {
-            var newquery = stripped_text.substring(0, stripped_text.length - google_codesearch_suffix.length).strip();
+            var newquery = stripped_text.substring(0, stripped_text.length - google_codesearch_suffix.length).trim();
             nav("http://code.google.com/codesearch#search/&q=" + encodeURIComponent("com.google.common " + newquery + " lang:java"));
             return;
         }
         
         var devsearch_suffix = " [Development and Coding Search]";
         if (stripped_text.endsWith(devsearch_suffix)) {
-            var newquery = stripped_text.substring(0, stripped_text.length - devsearch_suffix.length).strip();
+            var newquery = stripped_text.substring(0, stripped_text.length - devsearch_suffix.length).trim();
             nav("http://www.google.com/cse?cx=005154715738920500810:fmizctlroiw&q=" + encodeURIComponent("guava " + newquery));
             return;
         }

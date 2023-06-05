@@ -17,40 +17,9 @@ Storage.prototype.hasUnexpired = function(key) {
     var expiration = +this.getItem(key + "__expiration");
     return expiration < Date.now();
 };
-String.prototype.startsWith = function(str) {
-    if (str.length > this.length) {
-        return false;
-    }
-    return (String(this).substr(0, str.length) == str);
-};
-String.prototype.endsWith = function(str) {
-    if (str.length > this.length) {
-        return false;
-    }
-    return (String(this).substr(this.length - str.length, this.length) == str);
-};
 String.prototype.encode = function() {
     return encodeURIComponent(String(this));
 };
-String.prototype.strip = function() {
-    var str = String(this);
-    if (!str) {
-        return "";
-    }
-    var startidx=0;
-    var lastidx=str.length-1;
-    while ((startidx<str.length)&&(str.charAt(startidx)==' ')){
-        startidx++;
-    }
-    while ((lastidx>=startidx)&&(str.charAt(lastidx)==' ')){
-        lastidx--;
-    }
-    if (lastidx < startidx) {
-        return "";
-    }
-    return str.substring(startidx, lastidx+1);
-};
-
 // == Autocompletion Chrome Extension ==
 (function(){
     // Issue a new GET request
@@ -102,11 +71,11 @@ String.prototype.strip = function() {
         }
         var selector_index = simplified_name.indexOf(" selector");
         if (selector_index != -1) {
-            simplified_name = simplified_name.substring(0, selector_index).strip();
+            simplified_name = simplified_name.substring(0, selector_index).trim();
         }
         var template_index = simplified_name.indexOf(" template tag");
         if (template_index != -1) {
-            simplified_name = simplified_name.substring(0, template_index).strip();
+            simplified_name = simplified_name.substring(0, template_index).trim();
         }
         if (simplified_name.endsWith("()")) {
             simplified_name = simplified_name.substr(0, simplified_name.length - 2);
@@ -174,7 +143,7 @@ String.prototype.strip = function() {
         
         var kMaxSuggestions = 10;
         var suggestions = [];
-        var stripped_text = text.strip();
+        var stripped_text = text.trim();
         if (!stripped_text) {
             return;
         }
@@ -265,7 +234,7 @@ String.prototype.strip = function() {
             return;
         }
         
-        var stripped_text = text.strip();
+        var stripped_text = text.trim();
         if (!stripped_text) {
             nav("http://api.jquery.com/");
             return;
@@ -283,14 +252,14 @@ String.prototype.strip = function() {
                 
         var google_codesearch_suffix = " [Google Code Search]";
         if (stripped_text.endsWith(google_codesearch_suffix)) {
-            var newquery = stripped_text.substring(0, stripped_text.length - google_codesearch_suffix.length).strip();
+            var newquery = stripped_text.substring(0, stripped_text.length - google_codesearch_suffix.length).trim();
             nav("http://code.google.com/codesearch#search/&q=" + encodeURIComponent("jquery "+newquery + " lang:javascript"));
             return;
         }
         
         var devsearch_suffix = " [Development and Coding Search]";
         if (stripped_text.endsWith(devsearch_suffix)) {
-            var newquery = stripped_text.substring(0, stripped_text.length - devsearch_suffix.length).strip();
+            var newquery = stripped_text.substring(0, stripped_text.length - devsearch_suffix.length).trim();
             nav("http://www.google.com/cse?cx=005154715738920500810:fmizctlroiw&q=" + encodeURIComponent("jQuery "+newquery));
             return;
         }

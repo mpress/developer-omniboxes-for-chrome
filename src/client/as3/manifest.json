@@ -1,6 +1,6 @@
 {
 	"name" : "ActionScript 3.0 Search",
-	"manifest_version" : 2, 
+	"manifest_version" : 3,
 	"description" : "Adds support to the omnibox to search the AS3 reference docs.",
 	"background" : {
      "scripts":[ "String.js", "index.js", "background.js", "action/actionHandler.js" ]
@@ -8,7 +8,10 @@
 	"icons": { "128" : "icons/icon128.png", "32" : "icons/icon32.png", "16" : "icons/icon16.png" },
   	"omnibox":{ "keyword":"as3" },
   	"permissions":[ 
-    	"tabs", "*://help.adobe.com/"
+    	"tabs"
+  	],
+	"host_permissions": [
+		"*://help.adobe.com/*"
   	],
   	"options_page":"options.html",
   	"page_action": {
