@@ -4,7 +4,8 @@ var fs = require('fs');
 
 eval( fs.readFileSync( '../common/String.js' ) + '' );
 
-var TARGET_PATH = '/javase/7/docs/api/allclasses-frame.html';
+var TARGET_PATH = '/en/java/javase/20/docs/api/allclasses-index.html';
+//var TARGET_PATH = '/javase/7/docs/api/allclasses-frame.html';
 
 var TARGET_HOST = 'docs.oracle.com';
 
@@ -33,14 +34,15 @@ var downloaded = false;
 
 var scrapeData = function() {
 
-    java7_api_ = [];
+    java20_api_ = [];
     var text = fs.readFileSync( './result.tmp', 'utf8' );
     var italic_begin = new RegExp( "<I>", "g" );
     var italic_end = new RegExp( "</I>", "g" );
     var slashes = new RegExp("/", "g");
     var dothtml = new RegExp(".html", "g");
-    var matches = text.match(new RegExp("<a href=\".*\" title=\".*\" target=\"classFrame\">.*</a>", "g"));
-                
+   // var matches = text.match(new RegExp("<a href=\".*\" title=\".*\" target=\"classFrame\">.*</a>", "g"));
+    var matches = text.match(new RegExp("<a href=\".*\" title=\".*\">.*</a>", "g"));
+
     for (var i = 0; i < matches.length; i++) {
 
         var match = matches[ i ];
@@ -57,7 +59,7 @@ var scrapeData = function() {
         type = type.charAt(0).toUpperCase() + type.substr(1);
         var fqn = href.replace(slashes, ".").replace(dothtml, "");
         
-        java7_api_.push( { 
+        java20_api_.push( {
             "name":content, 
             "fqn":fqn, 
             "url":href, 
@@ -65,7 +67,7 @@ var scrapeData = function() {
         });
     }
 
-   	fs.appendFileSync('index.js', "var index = " + JSON.stringify( java7_api_, null, '\t' ) );
+   	fs.appendFileSync('index.js', "var index = " + JSON.stringify( java20_api_, null, '\t' ) );
 }
 var options = {
     host : TARGET_HOST,
@@ -82,7 +84,10 @@ var req = http.get( options, function( res ) {
 
     res.on('data', function( chunk ) {
 
-        if (error) {
+        fs.appendFile('./result.tmp', chunk, function( error ) {
+
+
+            if (error) {
 
             console.log( error );
         } else {
@@ -91,11 +96,11 @@ var req = http.get( options, function( res ) {
 
                 scrapeData();
 
-               // fs.unlinkSync('./result.tmp');
+                fs.unlinkSync('./result.tmp');
             }
         }
     });
-
+    });
     res.on( 'end', function() {
         downloaded = true;
     });
