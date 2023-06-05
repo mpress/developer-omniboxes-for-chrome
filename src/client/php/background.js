@@ -85,7 +85,7 @@
         
         var kMaxSuggestions = 10;
         var suggestions = [];
-        var stripped_text = text.strip();
+        var stripped_text = text.trim();
         if ( !stripped_text ) {
             
             return;
@@ -198,7 +198,7 @@
             return;
         }
         
-        var stripped_text = text.strip();
+        var stripped_text = text.trim();
         
         if (!stripped_text || stripped_text == "" ) {
         
@@ -228,21 +228,21 @@
         var php_suffix = " [PHP Search]";
         if (stripped_text.endsWith(php_suffix)) {
             
-            var newquery = stripped_text.substring(0, stripped_text.length - php_suffix.length).strip();
+            var newquery = stripped_text.substring(0, stripped_text.length - php_suffix.length).trim();
             navigateTo([base, "manual-lookup.php?pattern=", encodeURIComponent(newquery), "&lang=en"].join(''));
             return;
         }        
         
         var google_codesearch_suffix = " [Google Code Search]";
         if (stripped_text.endsWith(google_codesearch_suffix)) {
-            var newquery = stripped_text.substring(0, stripped_text.length - google_codesearch_suffix.length).strip();
+            var newquery = stripped_text.substring(0, stripped_text.length - google_codesearch_suffix.length).trim();
             navigateTo("http://code.google.com/codesearch#search/&q=" + encodeURIComponent(newquery + " lang:php"));
             return;
         }
         
         var devsearch_suffix = " [Development and Coding Search]";
         if (stripped_text.endsWith( devsearch_suffix ) ) {
-            var newquery = stripped_text.substring(0, stripped_text.length - devsearch_suffix.length).strip();
+            var newquery = stripped_text.substring(0, stripped_text.length - devsearch_suffix.length).trim();
             navigateTo("http://www.google.com/cse?cx=005154715738920500810:fmizctlroiw&q=" + encodeURIComponent("PHP "+newquery));
             return;
         }

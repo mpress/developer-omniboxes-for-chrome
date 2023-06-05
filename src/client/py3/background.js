@@ -323,7 +323,7 @@
         
         var kMaxSuggestions = 10;
         var suggestions = [];
-        var stripped_text = text.strip();
+        var stripped_text = text.trim();
         if (!stripped_text) {
             return;
         }
@@ -502,7 +502,7 @@
             return;
         }
         
-        var stripped_text = text.strip();
+        var stripped_text = text.trim();
         if (!stripped_text) {
             nav("http://docs.python.org/py3k/");
             return;
@@ -521,14 +521,14 @@
                 
         var google_codesearch_suffix = " [Google Code Search]";
         if (stripped_text.endsWith(google_codesearch_suffix)) {
-            var newquery = stripped_text.substring(0, stripped_text.length - google_codesearch_suffix.length).strip();
+            var newquery = stripped_text.substring(0, stripped_text.length - google_codesearch_suffix.length).trim();
             nav("http://code.google.com/codesearch#search/&q=" + encodeURIComponent(newquery + " lang:python"));
             return;
         }
         
         var devsearch_suffix = " [Development and Coding Search]";
         if (stripped_text.endsWith(devsearch_suffix)) {
-            var newquery = stripped_text.substring(0, stripped_text.length - devsearch_suffix.length).strip();
+            var newquery = stripped_text.substring(0, stripped_text.length - devsearch_suffix.length).trim();
             nav("http://www.google.com/cse?cx=005154715738920500810:fmizctlroiw&q=" + encodeURIComponent(newquery));
             return;
         }

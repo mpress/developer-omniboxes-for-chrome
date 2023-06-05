@@ -1,4 +1,4 @@
-all: man.zip java.zip gwt.zip gdata.zip guava.zip gae.zip py.zip py3.zip spring.zip pygdata.zip stl.zip droid.zip js.zip closure.zip jq.zip php.zip as3.zip rb.zip rails.zip mysql.zip boost.zip jee.zip groovy.zip qt.zip matlab.zip
+all: man.zip java.zip gwt.zip guava.zip gae.zip py.zip py3.zip spring.zip pygdata.zip stl.zip droid.zip js.zip closure.zip jq.zip php.zip as3.zip rb.zip rails.zip mysql.zip boost.zip jee.zip groovy.zip qt.zip matlab.zip
 
 .build/man:
 	@ mkdir -p ./.build/man
@@ -51,24 +51,6 @@ java.zip: .build/java
 gwt.zip: .build/gwt
 	@ (cd ./.build; zip -r9 gwt.zip gwt) >/dev/null
 	@ cp ./.build/gwt.zip ./gwt.zip
-	@ rm -f build
-	@ ln -s .build build
-
-.build/gdata:
-	@ mkdir -p ./.build/gdata
-	@ rm -f build
-	@ ln -s .build build
-	@ cp ./gdata/manifest.json ./.build/gdata/manifest.json
-	@ cp ./gdata/background.html ./.build/gdata/background.html
-	@ closure --compilation_level ADVANCED_OPTIMIZATIONS --js ./gdata/background.js --externs externs.js --js_output_file ./.build/gdata/background.js
-	@ pngcrush -d ./.build/gdata -rem alla -reduce -brute icon.png gdata/icon.png >/dev/null
-	@ pngcrush -d ./.build/gdata -rem alla -reduce -brute icon128.png gdata/icon128.png >/dev/null
-	@ pngcrush -d ./.build/gdata -rem alla -reduce -brute icon32.png gdata/icon32.png >/dev/null
-	@ pngcrush -d ./.build/gdata -rem alla -reduce -brute icon16.png gdata/icon16.png >/dev/null
-
-gdata.zip: .build/gdata
-	@ (cd ./.build; zip -r9 gdata.zip gdata) >/dev/null
-	@ cp ./.build/gdata.zip ./gdata.zip
 	@ rm -f build
 	@ ln -s .build build
 

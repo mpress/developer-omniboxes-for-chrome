@@ -17,38 +17,8 @@ Storage.prototype.hasUnexpired = function(key) {
     var expiration = +this.getItem(key + "__expiration");
     return expiration < Date.now();
 };
-String.prototype.startsWith = function(str) {
-    if (str.length > this.length) {
-        return false;
-    }
-    return (String(this).substr(0, str.length) == str);
-};
-String.prototype.endsWith = function(str) {
-    if (str.length > this.length) {
-        return false;
-    }
-    return (String(this).substr(this.length - str.length, this.length) == str);
-};
 String.prototype.encode = function() {
     return encodeURIComponent(String(this));
-};
-String.prototype.strip = function() {
-    var str = String(this);
-    if (!str) {
-        return "";
-    }
-    var startidx=0;
-    var lastidx=str.length-1;
-    while ((startidx<str.length)&&(str.charAt(startidx)==' ')){
-        startidx++;
-    }
-    while ((lastidx>=startidx)&&(str.charAt(lastidx)==' ')){
-        lastidx--;
-    }
-    if (lastidx < startidx) {
-        return "";
-    }
-    return str.substring(startidx, lastidx+1);
 };
 
 // == Autocompletion Chrome Extension ==
@@ -339,7 +309,7 @@ String.prototype.strip = function() {
             return;
         }
         
-        var stripped_text = text.strip();
+        var stripped_text = text.trim();
         if (!stripped_text) {
             nav("http://pubs.opengroup.org/onlinepubs/009695399/");
             return;
@@ -357,7 +327,7 @@ String.prototype.strip = function() {
         
         var posix2004_function_suffix = " [POSIX 2004 System Interface]";
         if (stripped_text.endsWith(posix2004_function_suffix)) {
-            var newquery = stripped_text.substring(0, stripped_text.length - posix2004_function_suffix.length).strip();
+            var newquery = stripped_text.substring(0, stripped_text.length - posix2004_function_suffix.length).trim();
             if (posix2004_functions_){
                 if (posix2004_functions_[newquery]) {
                     nav(posix2004_functions_[newquery]);
@@ -376,7 +346,7 @@ String.prototype.strip = function() {
         
         var posix2004_utility_suffix = " [POSIX 2004 Shell Utility]";
         if (stripped_text.endsWith(posix2004_utility_suffix)) {
-            var newquery = stripped_text.substring(0, stripped_text.length - posix2004_utility_suffix.length).strip();
+            var newquery = stripped_text.substring(0, stripped_text.length - posix2004_utility_suffix.length).trim();
             if (posix2004_utilities_){
                 if (posix2004_utilities_[newquery]) {
                     nav(posix2004_utilities_[newquery]);
@@ -395,7 +365,7 @@ String.prototype.strip = function() {
         
         var posix2004_header_suffix = " [POSIX 2004 System Header]";
         if (stripped_text.endsWith(posix2004_header_suffix)) {
-            var newquery = stripped_text.substring(0, stripped_text.length - posix2004_header_suffix.length).strip();
+            var newquery = stripped_text.substring(0, stripped_text.length - posix2004_header_suffix.length).trim();
             if (posix2004_headers_){
                 if (posix2004_headers_[newquery]) {
                     nav(posix2004_headers_[newquery]);
@@ -414,7 +384,7 @@ String.prototype.strip = function() {
         
         var posix2008_function_suffix = " [POSIX 2008 System Interface]";
         if (stripped_text.endsWith(posix2008_function_suffix)) {
-            var newquery = stripped_text.substring(0, stripped_text.length - posix2008_function_suffix.length).strip();
+            var newquery = stripped_text.substring(0, stripped_text.length - posix2008_function_suffix.length).trim();
             if (posix2008_functions_){
                 if (posix2008_functions_[newquery]) {
                     nav(posix2008_functions_[newquery]);
@@ -433,7 +403,7 @@ String.prototype.strip = function() {
         
         var posix2008_utility_suffix = " [POSIX 2008 Shell Utility]";
         if (stripped_text.endsWith(posix2008_utility_suffix)) {
-            var newquery = stripped_text.substring(0, stripped_text.length - posix2008_utility_suffix.length).strip();
+            var newquery = stripped_text.substring(0, stripped_text.length - posix2008_utility_suffix.length).trim();
             if (posix2008_utilities_){
                 if (posix2008_utilities_[newquery]) {
                     nav(posix2008_utilities_[newquery]);
@@ -452,7 +422,7 @@ String.prototype.strip = function() {
         
         var posix2008_header_suffix = " [POSIX 2008 System Header]";
         if (stripped_text.endsWith(posix2008_header_suffix)) {
-            var newquery = stripped_text.substring(0, stripped_text.length - posix2008_header_suffix.length).strip();
+            var newquery = stripped_text.substring(0, stripped_text.length - posix2008_header_suffix.length).trim();
             if (posix2008_headers_){
                 if (posix2008_headers_[newquery]) {
                     nav(posix2008_headers_[newquery]);
@@ -471,7 +441,7 @@ String.prototype.strip = function() {
         
         var linux_man_pages_suffix = " [Linux Man Page]";
         if (stripped_text.endsWith(linux_man_pages_suffix)) {
-            var newquery = stripped_text.substring(0, stripped_text.length - linux_man_pages_suffix.length).strip();
+            var newquery = stripped_text.substring(0, stripped_text.length - linux_man_pages_suffix.length).trim();
             if (linux_man_pages_){
                 if (linux_man_pages_[newquery]) {
                     nav(linux_man_pages_[newquery]);
@@ -490,21 +460,21 @@ String.prototype.strip = function() {
         
         var google_codesearch_suffix = " [Google Code Search]";
         if (stripped_text.endsWith(google_codesearch_suffix)) {
-            var newquery = stripped_text.substring(0, stripped_text.length - google_codesearch_suffix.length).strip();
+            var newquery = stripped_text.substring(0, stripped_text.length - google_codesearch_suffix.length).trim();
             nav("http://code.google.com/codesearch#search/&q=" + encodeURIComponent(newquery));
             return;
         }
         
         var devsearch_suffix = " [Development and Coding Search]";
         if (stripped_text.endsWith(devsearch_suffix)) {
-            var newquery = stripped_text.substring(0, stripped_text.length - devsearch_suffix.length).strip();
+            var newquery = stripped_text.substring(0, stripped_text.length - devsearch_suffix.length).trim();
             nav("http://www.google.com/cse?cx=005154715738920500810:fmizctlroiw&q=" + encodeURIComponent(newquery));
             return;
         }
         
         var manpage_search_suffix = " [Linux Manpage Search]";
         if (stripped_text.endsWith(manpage_search_suffix)) {
-            var newquery = stripped_text.substring(0, stripped_text.length - manpage_search_suffix.length).strip();
+            var newquery = stripped_text.substring(0, stripped_text.length - manpage_search_suffix.length).trim();
             nav("http://man.cx/" + encodeURIComponent(newquery));
             return;
         }
@@ -555,7 +525,7 @@ String.prototype.strip = function() {
         
         var kMaxSuggestions = 10;
         var suggestions = [];
-        var stripped_text = text.strip();
+        var stripped_text = text.trim();
         if (!stripped_text) {
             return;
         }

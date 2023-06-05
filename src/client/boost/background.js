@@ -17,40 +17,9 @@ Storage.prototype.hasUnexpired = function(key) {
     var expiration = +this.getItem(key + "__expiration");
     return expiration < Date.now();
 };
-String.prototype.startsWith = function(str) {
-    if (str.length > this.length) {
-        return false;
-    }
-    return (String(this).substr(0, str.length) == str);
-};
-String.prototype.endsWith = function(str) {
-    if (str.length > this.length) {
-        return false;
-    }
-    return (String(this).substr(this.length - str.length, this.length) == str);
-};
 String.prototype.encode = function() {
     return encodeURIComponent(String(this));
 };
-String.prototype.strip = function() {
-    var str = String(this);
-    if (!str) {
-        return "";
-    }
-    var startidx=0;
-    var lastidx=str.length-1;
-    while ((startidx<str.length)&&(str.charAt(startidx)==' ')){
-        startidx++;
-    }
-    while ((lastidx>=startidx)&&(str.charAt(lastidx)==' ')){
-        lastidx--;
-    }
-    if (lastidx < startidx) {
-        return "";
-    }
-    return str.substring(startidx, lastidx+1);
-};
-
 // == Autocompletion Chrome Extension ==
 (function(){
     // Issue a new GET request
@@ -224,7 +193,7 @@ String.prototype.strip = function() {
         
         var kMaxSuggestions = 10;
         var suggestions = [];
-        var stripped_text = text.strip();
+        var stripped_text = text.trim();
         if (!stripped_text) {
             return;
         }
@@ -302,7 +271,7 @@ String.prototype.strip = function() {
             return;
         }
         
-        var stripped_text = text.strip();
+        var stripped_text = text.trim();
         if (!stripped_text) {
             nav("http://www.boost.org/doc/libs/");
             return;
@@ -320,21 +289,21 @@ String.prototype.strip = function() {
         
         var boost_search_suffix = " [Boost Custom Search]";
         if (stripped_text.endsWith(boost_search_suffix)) {
-            var newquery = stripped_text.substring(0, stripped_text.length - boost_search_suffix.length).strip();
+            var newquery = stripped_text.substring(0, stripped_text.length - boost_search_suffix.length).trim();
             nav("http://www.google.com/custom?cof=LW%3A277%3BL%3Ahttp%3A%2F%2Fwww.boost.org%2Fboost.png%3BLH%3A86%3BAH%3Acenter%3BGL%3A0%3BS%3Ahttp%3A%2F%2Fwww.boost.org%3BAWFID%3A9b83d16ce652ed5a%3B&sa=Google+Search&domains=www.boost.org%3Blists.boost.org&hq=site%3Awww.boost.org+OR+site%3Alists.boost.org&q=" + encodeURIComponent(stripped_text));
             return;
         }
                                 
         var google_codesearch_suffix = " [Google Code Search]";
         if (stripped_text.endsWith(google_codesearch_suffix)) {
-            var newquery = stripped_text.substring(0, stripped_text.length - google_codesearch_suffix.length).strip();
+            var newquery = stripped_text.substring(0, stripped_text.length - google_codesearch_suffix.length).trim();
             nav("http://code.google.com/codesearch#search/&q=" + encodeURIComponent("boost "+newquery+" lang:c++"));
             return;
         }
         
         var devsearch_suffix = " [Development and Coding Search]";
         if (stripped_text.endsWith(devsearch_suffix)) {
-            var newquery = stripped_text.substring(0, stripped_text.length - devsearch_suffix.length).strip();
+            var newquery = stripped_text.substring(0, stripped_text.length - devsearch_suffix.length).trim();
             nav("http://www.google.com/cse?cx=005154715738920500810:fmizctlroiw&q=" + encodeURIComponent("boost "+newquery));
             return;
         }
