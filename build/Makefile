@@ -1,5 +1,3 @@
-# Michael Aaron Safyan (michaelsafyan@gmail.com). Copyright (C) 2011. All rights reserved.
-
 all: man.zip java.zip gwt.zip gdata.zip guava.zip gae.zip py.zip py3.zip spring.zip pygdata.zip stl.zip droid.zip js.zip closure.zip jq.zip php.zip as3.zip rb.zip rails.zip mysql.zip boost.zip jee.zip groovy.zip qt.zip matlab.zip
 
 .build/man:

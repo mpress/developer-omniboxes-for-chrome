@@ -119,7 +119,7 @@
                 "description" : [ "Search for \"<match>", stripped_text, "</match> <dim>lang:java</dim>\" using <match><url>Google Code Search</url></match> - <url>http://code.google.com/codesearch#search/&amp;q=", encodeURIComponent( stripped_text + " lang:java" ), "</url>" ].join( '' ) } ); 
           
             suggestions.push( { "content" : stripped_text +  " [Development and Coding Search]", 
-                "description" : [ "Search for \"<match>", stripped_text, "</match>\" using <match><url>Develoment and Coding Search</url></match> - <url>http://www.google.com/cse?cx=005154715738920500810:fmizctlroiw&amp;q=", encodeURIComponent( stripped_text ), "</url>" ].join( '' ) } );
+                "description" : [ "Search for \"<match>", stripped_text, "</match>\" using <match><url>Development and Coding Search</url></match> - <url>http://www.google.com/cse?cx=005154715738920500810:fmizctlroiw&amp;q=", encodeURIComponent( stripped_text ), "</url>" ].join( '' ) } );
         }
         suggest_callback( suggestions );
     });

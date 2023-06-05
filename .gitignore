@@ -1,11 +1,10 @@
 js.crx
 js.pem
-js.pem
 as3.crx
 as3.pem
 deploy/pem
 .project
-.project
-admin
 admin
 /.DS_Store
+.idea
+

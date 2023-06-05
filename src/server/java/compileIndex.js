@@ -1,17 +1,12 @@
-console.log( 'hello java' );
-
-var http = require('http');
+var http = require('https');
 
 var fs = require('fs');
 
 eval( fs.readFileSync( '../common/String.js' ) + '' );
 
-
 var TARGET_PATH = '/javase/7/docs/api/allclasses-frame.html';
 
 var TARGET_HOST = 'docs.oracle.com';
-
-
 
 if (fs.existsSync('./result.tmp') ) {
 
@@ -19,13 +14,19 @@ if (fs.existsSync('./result.tmp') ) {
     });
 } else {
 
-    fs.open('./result.tmp', 'w');
+    fs.open( './result.tmp', 'w', function( openError, fd ) {
+        if ( openError ) {
+            if ( callback ) callback( openError );
+        } else {
+          //  writeFd(fd, false);
+        }
+    });
 }
 
-if (fs.existsSync('index.js')) {
+if ( fs.existsSync( 'index.js' ) ) {
 
-    fs.writeFile('index.js', '', function(error) {
-    });
+    fs.writeFile( 'index.js', '', function( error ) {
+    } );
 }
 
 var downloaded = false;
@@ -33,9 +34,9 @@ var downloaded = false;
 var scrapeData = function() {
 
     java7_api_ = [];
-    var text = fs.readFileSync('./result.tmp', 'utf8');
-    var italic_begin = new RegExp("<I>", "g");
-    var italic_end = new RegExp("</I>", "g");
+    var text = fs.readFileSync( './result.tmp', 'utf8' );
+    var italic_begin = new RegExp( "<I>", "g" );
+    var italic_end = new RegExp( "</I>", "g" );
     var slashes = new RegExp("/", "g");
     var dothtml = new RegExp(".html", "g");
     var matches = text.match(new RegExp("<a href=\".*\" title=\".*\" target=\"classFrame\">.*</a>", "g"));
@@ -64,40 +65,38 @@ var scrapeData = function() {
         });
     }
 
-	console.log( "here again?" );
    	fs.appendFileSync('index.js', "var index = " + JSON.stringify( java7_api_, null, '\t' ) );
 }
 var options = {
     host : TARGET_HOST,
-    port : 80,
+    port : 443,
     path : TARGET_PATH
 };
 
 var req = http.get( options, function( res ) {
 
+    const { statusCode } = res;
     res.setEncoding( 'utf8' );
+
+    if( statusCode !== 200 ) { console.log( 'statusCode: ' + statusCode ) }
 
     res.on('data', function( chunk ) {
 
-        fs.appendFile('./result.tmp', chunk, function( error ) {
+        if (error) {
 
-            if (error) {
+            console.log( error );
+        } else {
 
-                console.log( error );
-            } else {
+            if (downloaded) {
 
-                if (downloaded) {
+                scrapeData();
 
-                    scrapeData();
-
-                   // fs.unlinkSync('./result.tmp');
-                }
+               // fs.unlinkSync('./result.tmp');
             }
-        });
+        }
     });
 
     res.on( 'end', function() {
-		
         downloaded = true;
     });
 });
